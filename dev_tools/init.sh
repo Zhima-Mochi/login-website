@@ -1,0 +1,1 @@
+export $(cat .env-example | xargs)

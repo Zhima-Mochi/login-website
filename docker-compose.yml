@@ -1,0 +1,21 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:14.2
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=${db_password}
+      - POSTGRES_USER=${db_user}
+      - POSTGRES_DB=${db_name}
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+      - ./db/scripts:/docker-entrypoint-initdb.d
+    ports:
+      - 5432:5432
+      
+networks:
+  local-network:
+    driver: bridge
+
+volumes:
+  db_volume:
