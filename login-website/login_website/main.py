@@ -15,8 +15,7 @@ async def get_session():
 
 @app.on_event("startup")
 async def startup():
-    async with database.engine.connect() as conn:
-        await conn.run_sync(schemas.Base.metadata.create_all)
+    schemas.Base.metadata.create_all(bind=database.synchronous_engine)
 
 
 @app.on_event("shutdown")

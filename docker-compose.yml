@@ -4,12 +4,14 @@ services:
     image: postgres:14.2
     restart: always
     environment:
-      - POSTGRES_PASSWORD=${db_password}
-      - POSTGRES_USER=${db_user}
-      - POSTGRES_DB=${db_name}
+      - POSTGRES_PASSWORD=${db_password:-root}
+      - POSTGRES_USER=${db_user:-root}
+      - POSTGRES_DB=${db_name:-website}
     volumes:
       - db_volume:/var/lib/postgresql/data
       - ./db/scripts:/docker-entrypoint-initdb.d
+    expose:
+      - 5432
     ports:
       - 5432:5432
       
