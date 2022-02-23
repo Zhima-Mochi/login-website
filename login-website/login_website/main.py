@@ -15,7 +15,7 @@ async def get_session():
 
 @app.on_event("startup")
 async def startup():
-    schemas.Base.metadata.drop_all(bind=database.synchronous_engine)
+    # schemas.Base.metadata.drop_all(bind=database.synchronous_engine)
     schemas.Base.metadata.create_all(bind=database.synchronous_engine)
 
 

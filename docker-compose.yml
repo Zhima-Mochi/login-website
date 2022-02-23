@@ -4,9 +4,9 @@ services:
     image: postgres:14.2
     restart: always
     environment:
-      - POSTGRES_PASSWORD=${db_password:-root}
-      - POSTGRES_USER=${db_user:-root}
-      - POSTGRES_DB=${db_name:-website}
+      - POSTGRES_PASSWORD=${database_password:-root}
+      - POSTGRES_USER=${database_user:-root}
+      - POSTGRES_DB=${database_name:-website}
     volumes:
       - db_volume:/var/lib/postgresql/data
       - ./db/scripts:/docker-entrypoint-initdb.d
