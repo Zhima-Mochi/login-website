@@ -1,4 +1,3 @@
-from unittest import result
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
