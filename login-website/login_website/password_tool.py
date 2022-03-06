@@ -3,11 +3,11 @@ from datetime import timedelta, datetime
 from passlib.context import CryptContext
 from typing import Optional
 from jose import JWTError, jwt
-from login_website.settings import settings
+from .config.settings import settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-secret_key = settings.secret
+secret_key = settings.secret_key
 algorithm = "HS256"
 
 
@@ -27,4 +27,4 @@ def create_access_token(data: dict, expire_delta: Optional[timedelta] = None):
         expire_time = datetime.now()+timedelta(hours=2)
     to_encode_data.update({"exp": expire_time})
     encoded_jwt = jwt.encode(to_encode_data, secret_key, algorithm)
-    return encoded_jwt
+    return (encoded_jwt, expire_time)
