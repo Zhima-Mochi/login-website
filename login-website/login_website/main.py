@@ -60,3 +60,9 @@ async def create_token(response: Response, form_data: OAuth2PasswordRequestForm 
         response.set_cookie(key="session", value=token, expires=expire_time.ctime(),
                             httponly=True, samesite="lax")
         return token
+
+
+@app.get("/login")
+async def get_login_info(redis_conn=Depends(database.get_redis_conn)):
+    # check if login or not
+    pass
