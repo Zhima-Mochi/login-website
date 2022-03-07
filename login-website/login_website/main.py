@@ -49,14 +49,14 @@ async def register(user_create: models.UserCreate, connection=Depends(database.g
 @app.post("/token")
 async def create_token(response: Response, form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm), connection=Depends(database.get_connection), redis_conn=Depends(database.get_redis_conn)):
     async with connection.transaction():
-        email = form_data.username
-        password = form_data.password
-        user = await authentication_tool.authenticate_user(connection, email, password)
+        user_email = form_data.username
+        user_password = form_data.password
+        user = await authentication_tool.authenticate_user(connection, user_email, user_password)
         if user is None:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
         token, expire_time = password_tool.create_access_token(data={
-                                                               "sub": email})
-        await redis_conn.set(email, token, (expire_time-datetime.now()).seconds)
+                                                               "sub": user_email})
+        await redis_conn.set(user_email, token, (expire_time-datetime.now()).seconds)
         response.set_cookie(key="session", value=token, expires=expire_time.ctime(),
                             httponly=True, samesite="lax")
         return token
