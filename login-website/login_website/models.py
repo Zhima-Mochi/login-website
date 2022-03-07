@@ -1,5 +1,7 @@
+from enum import Enum
 from pydantic import BaseModel, EmailStr
 from typing import Optional
+
 
 class UserBase(BaseModel):
     user_email: EmailStr
@@ -19,8 +21,16 @@ class UserDB(User):
 
 
 class Token(BaseModel):
-    access_token:str
-    token_type:str
+    access_token: str
+    token_type: str
+
 
 class TokenData(BaseModel):
-    user_name: Optional[str]=None
+    user_name: Optional[str] = None
+
+
+class LoginStatus(str, Enum):
+    expire = "expire"
+    unauth = "unauthorized"
+    invalid = "invalid token"
+    auth = "authorized"

@@ -8,7 +8,7 @@ from .config.settings import settings
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 secret_key = settings.secret_key
-algorithm = "HS256"
+algorithm = settings.algorithm
 
 
 def get_hashed_password(password: str) -> str:

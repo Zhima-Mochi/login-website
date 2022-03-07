@@ -1,7 +1,7 @@
 from asyncio.log import logger
 from datetime import datetime
 from fastapi import Depends, FastAPI, HTTPException, status, Response
-from . import models, schemas, database, crud, authentication_tool, password_tool
+from . import models, schemas, database, crud, authentication_tool, password_tool, dependents
 from starlette import status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -62,7 +62,8 @@ async def create_token(response: Response, form_data: OAuth2PasswordRequestForm 
         return token
 
 
-@app.get("/login")
-async def get_login_info(redis_conn=Depends(database.get_redis_conn)):
-    # check if login or not
-    pass
+@app.get("/login_status")
+async def login_status(response: Response, login_status: str = Depends(dependents.get_login_status)):
+    if login_status != models.LoginStatus.auth:
+        response.delete_cookie(key="session")
+    return login_status

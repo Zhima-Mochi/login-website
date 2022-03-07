@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     secret_key: str
     redis_host: str
     redis_port: str
+    algorithm: str = "HS256"
 
     class Config:
         env_file = ".env"
