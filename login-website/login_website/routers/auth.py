@@ -38,7 +38,5 @@ async def create_token(response: Response, form_data: OAuth2PasswordRequestForm 
 
 
 @router.get("/login_status")
-async def login_status(response: Response, login_status: str = Depends(dependents.get_login_status)):
-    if login_status != models.LoginStatus.auth:
-        response.delete_cookie(key="session")
-    return login_status
+async def login_status(is_login: bool = Depends(dependents.is_login)):
+    return is_login

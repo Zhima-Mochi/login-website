@@ -1,11 +1,17 @@
+from datetime import date
 from enum import Enum
+from fastapi import UploadFile, File
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 
 
 class UserBase(BaseModel):
     user_email: EmailStr
-    user_name: str
+
+
+class UserInfoBase(UserBase):
+    user_nickname: str = None
+    user_birthday: date = None
 
 
 class UserCreate(UserBase):
@@ -16,8 +22,16 @@ class User(UserBase):
     user_id: int
 
 
-class UserDB(User):
+class UserInfo(UserInfoBase):
+    user_id: int
+
+
+class UserDB(UserInfo):
     user_hashed_password: str
+
+
+class UserInfoUpdate(UserInfoBase):
+    pass
 
 
 class Token(BaseModel):

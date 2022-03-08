@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from login_website import schemas, database
 from fastapi.middleware.cors import CORSMiddleware
 from login_website.routers.auth import router as auth_router
+from login_website.routers.users import router as users_router
 
 
 app = FastAPI()
@@ -20,6 +21,7 @@ app.add_middleware(
 
 
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+app.include_router(users_router, prefix="/users", tags=["Users"])
 
 
 @app.on_event("startup")
