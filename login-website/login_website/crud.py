@@ -31,7 +31,7 @@ async def create_user(connection, user: models.User) -> models.UserDB:
     return await get_user_by_id(connection, user_id)
 
 
-async def update_profile(connection, user_email, user_profile: bytes):
+async def update_user_profile(connection, user_email, user_profile: bytes):
     # get user_id by user_email
     user_id = (await get_user_by_email(connection, user_email)).user_id
     stmt = update(schemas.UserProfile).where(schemas.UserProfile.user_id == user_id).values(
@@ -39,6 +39,15 @@ async def update_profile(connection, user_email, user_profile: bytes):
     )
     await connection.execute(stmt)
     return
+
+
+async def get_user_profile(connection, user_email):
+    # get user_id by user_email
+    user_id = (await get_user_by_email(connection, user_email)).user_id
+    stmt = select(schemas.UserProfile.user_profile).where(
+        schemas.UserProfile.user_id == user_id)
+    result = (await connection.fetch_one(stmt))[0]
+    return result
 
 
 async def get_user_or_404(connection, user_email: str) -> models.UserDB:
