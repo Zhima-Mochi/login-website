@@ -49,3 +49,9 @@ export async function get_login_status() {
     return axios.get(api_url.href)
         .then(res => res);
 }
+
+export async function get_user_info() {
+    api_url.pathname = api_base_path;
+    api_url.pathname += "users/info";
+    return axios.get(api_url.href).then(res => res);
+}
