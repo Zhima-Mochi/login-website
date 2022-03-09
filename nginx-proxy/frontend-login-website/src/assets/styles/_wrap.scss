@@ -1,0 +1,19 @@
+.wrap {
+    padding: 0 36px;
+    
+    @include sm-width {
+        padding: 0 36px;
+    }
+
+    @include md-width {
+        padding: 0 70px;
+    }
+
+    @include lg-width {
+        padding: 0 150px;
+    }
+
+    @include xl-width {
+        padding: 0 200px;
+    }
+}

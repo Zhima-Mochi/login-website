@@ -1,0 +1,23 @@
+@mixin sm-width() {
+    @media (min-width: $smalldevice) {
+        @content;
+    }
+}
+
+@mixin md-width() {
+    @media (min-width: $mediumdevice) {
+        @content;
+    }
+}
+
+@mixin lg-width() {
+    @media (min-width: $largedevice) {
+        @content;
+    }
+}
+
+@mixin xl-width() {
+    @media (min-width: $verylargedevice) {
+        @content;
+    }
+}
