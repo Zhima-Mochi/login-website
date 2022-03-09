@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import { get_login_status, submit_login } from "../api";
+import { submit_login } from "../api";
 import { Oauth2Login } from "../constants";
 
 export default function LoginForm() {
@@ -11,20 +11,6 @@ export default function LoginForm() {
     const emailCheck = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-
-    async function loginStatus() {
-        return get_login_status().then(() => {
-            if (searchParams.get('next')) {
-                navigate(searchParams.get('next'));
-            } else {
-                navigate('/');
-            }
-        }).catch(e => console.log(e));
-    }
-
-    useEffect(() => {
-        loginStatus();
-    }, []);
 
     function eraseInput() {
         setWarning("");
@@ -37,7 +23,13 @@ export default function LoginForm() {
             setWarning("* email is not valid!");
         } else {
             submit_login(new Oauth2Login(userEmail, password))
-                .then(res => res)
+                .then(() => {
+                    if (searchParams.get('next')) {
+                        navigate(searchParams.get('next'));
+                    } else {
+                        navigate('/');
+                    }
+                })
                 .catch(e => {
                     if (e.response) {
                         setWarning("* " + e.response.data.detail);

@@ -8,7 +8,9 @@ from login_website.routers.users import router as users_router
 app = FastAPI()
 
 origins = {
-    "*"
+    "http://localhost:8080",
+    "http://localhost:3000",
+    "http://nginx-proxy"
 }
 
 app.add_middleware(
