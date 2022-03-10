@@ -34,9 +34,18 @@ async def create_token(response: Response, form_data: OAuth2PasswordRequestForm 
         await redis_conn.set(user_email, token, (expire_time-datetime.now()).seconds)
         response.set_cookie(key="session", value=token, expires=expire_time.ctime(),
                             httponly=True, samesite="lax")
+        response.set_cookie(key="csrftoken", value=password_tool.create_csrf_token(token), expires=expire_time.ctime(),
+                            samesite="lax")
         return token
 
 
 @router.get("/login_status")
 async def login_status(is_login: bool = Depends(dependents.is_login)):
     return is_login
+
+
+@router.get("/logout")
+async def logout(response: Response, csrf: str = Depends(dependents.csrf_protection)):
+    response.set_cookie("session", "delete",
+                        expires=datetime(1970, 1, 1).ctime())
+    return

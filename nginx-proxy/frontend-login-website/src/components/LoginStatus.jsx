@@ -1,29 +1,22 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { get_user_info } from "../api";
+import * as actions from '../actions';
 
 export default function LoginStatus() {
-    const [isLogin, setIsLogin] = useState(false);
-    const [userName, setUserName] = useState("");
-
+    const dispatch = useDispatch();
+    const userName = useSelector(state => state.userNameReducer);
     useEffect(() => {
-        let saved = sessionStorage.getItem("user_name");
-        if (!saved) {
+        if (userName === "") {
             get_user_info().then(res => {
                 const user_info = res.data;
                 const user_name = user_info.user_nickname || user_info.user_email;
-                sessionStorage.setItem("user_name", user_name);
-                setUserName(user_name);
-                console.log(userName);
-                setIsLogin(true);
-            });
-        } else {
-            const content = saved;
-            setUserName(content);
-            setIsLogin(true);
+                dispatch(actions.get_user_name(user_name));
+            }).catch(e => null);
         }
-    }, [isLogin]);
-    if (!isLogin) {
+    }, [userName, dispatch]);
+    if (userName === "") {
         return (
             <div className="flex text-white">
                 <NavLink to="/login" className="mr-2">Login</NavLink>

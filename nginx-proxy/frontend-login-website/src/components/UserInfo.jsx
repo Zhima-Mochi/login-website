@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { get_user_info } from "../api";
+import { get_user_info, user_logout } from "../api";
+import LogoutBtn from "./LogoutBtn";
 
 export default function UserInfo() {
     const [userEmail, setUserEmail] = useState("");
@@ -16,12 +17,12 @@ export default function UserInfo() {
                 setUserNickname(res.user_nickname)
                 setUserBirthday(res.user_birthday)
             }).catch(e => {
-                navigate("/login?next=/user/edit")
-            });;
+                navigate("/login?next=/user")
+            });
     }, []);
     return (
-        <div className="">
-            <div className="flex flex-col py-2 px-4 rounded-lg border-2 border-blue-800 text-blue-800">
+        <div className="flex flex-col items-center">
+            <div className="flex flex-col py-2 px-4 mb-6 rounded-lg border-2 border-blue-800 text-blue-800">
                 <div className="mt-2 mb-1">Your Email </div>
                 <div className="mb-4 w-60 font-medium" >{userEmail || <div className="text-gray-400">None</div>}</div>
                 <div className="mb-1">Nickname</div>
@@ -32,6 +33,7 @@ export default function UserInfo() {
                     <NavLink to="/user/edit" className="mx-2 cursor-pointer text-blue-900 font-bold"> Edit </NavLink>
                 </div>
             </div>
+            <LogoutBtn />
         </div>
     );
 }

@@ -9,7 +9,7 @@ export default function LoginPage() {
     async function loginStatus() {
         return get_login_status().then(() => {
             navigate('/');
-        }).catch(e => console.log(e));
+        }).catch(e => null);
     }
     useEffect(() => {
         loginStatus();
