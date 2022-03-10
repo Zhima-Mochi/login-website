@@ -9,15 +9,51 @@ services:
     volumes:
       - db_volume:/var/lib/mysql
       - ./db/scripts:/docker-entrypoint-initdb.d
-    ports:
-      - 3306:3306
+    # ports:
+    #   - 3306:3306
     networks:
       - local-networks
   
   redis-server:
     image: redis:6.2.6
+    # ports:
+    #   - 16379:6379
+    networks:
+      - local-networks
+
+  app:
+    build: login-website/
+    restart: always
+    depends_on:
+      - db
+      - redis-server
+    env_file:
+      - .env-example
+    environment:
+      - database_password=${database_password:-root}
+      - database_name=${database_name:-website}
+      - database_user=${database_user:-root}
+      - database_host=db
+      - database_port=3306
+      - redis_host=${redis_host:-redis-server}
+      - redis_port=6379
     ports:
-      - 16379:6379
+      - 8080:8080
+    networks:
+      - local-networks
+
+  nginx-proxy:
+    build:
+      context: nginx-proxy/
+      args:
+        - REACT_APP_API=/api/v1
+    restart: always
+    depends_on:
+      - app
+    env_file:
+      - .env-example
+    ports:
+      - 80:80
     networks:
       - local-networks
 

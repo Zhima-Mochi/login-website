@@ -7,7 +7,7 @@ const api_url = new URL("http://localhost:8080/")
 const api_base_path = ""
 
 function get_api_url(api_url) {
-    return api_url.href;
+    return process.env.REACT_APP_API+api_url.pathname;
 }
 
 function get_csrf_token() {
@@ -26,7 +26,7 @@ export async function submit_register(content) {
     };
     return axios({
         method: 'post',
-        url: get_api_url(api_url), //
+        url: get_api_url(api_url),
         data: data,
         headers: {
             'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ export async function submit_login(content) {
     };
     return axios({
         method: 'post',
-        url: get_api_url(api_url), //
+        url: get_api_url(api_url),
         data: qs.stringify(data),
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
