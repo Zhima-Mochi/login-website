@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { get_user_info } from "../api";
+import { get_user_info, put_user_info } from "../api";
+import { UserInfoEntity } from "../constants";
 
 export default function UserInfoEdit() {
     const [userEmail, setUserEmail] = useState("");
@@ -19,6 +19,14 @@ export default function UserInfoEdit() {
                 navigate("/login?next=/user/edit")
             });
     }, []);
+    function updateInfoProcess() {
+        const content = new UserInfoEntity(userEmail, userNickname, userBirthday);
+        put_user_info(content)
+            .then(res => {
+                navigate('/user');
+            })
+            .catch(e => null)
+    }
     return (
         <div className="">
             <div className="flex flex-col py-2 px-4 rounded-lg border-2 border-blue-800 text-blue-800">
@@ -30,7 +38,7 @@ export default function UserInfoEdit() {
                 <input type="date" value={userBirthday} onChange={(e) => setUserBirthday(e.target.value)} className="my-2 rounded-sm bg-white text-black px-1 w-60" />
                 <div className="flex justify-center">
                     <button onClick={() => navigate('/user')} className="mx-2 cursor-pointer text-red-400 font-bold"> Cancel </button>
-                    <button to="/user/edit" className="mx-2 cursor-pointer text-blue-900 font-bold"> Confirm </button>
+                    <button onClick={() => updateInfoProcess()} className="mx-2 cursor-pointer text-blue-900 font-bold"> Confirm </button>
                 </div>
             </div>
         </div>

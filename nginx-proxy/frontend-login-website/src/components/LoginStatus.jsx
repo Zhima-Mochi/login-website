@@ -15,7 +15,7 @@ export default function LoginStatus() {
                 dispatch(actions.get_user_name(user_name));
             }).catch(e => null);
         }
-    }, [userName, dispatch]);
+    }, [userName]);
     if (userName === "") {
         return (
             <div className="flex text-white">

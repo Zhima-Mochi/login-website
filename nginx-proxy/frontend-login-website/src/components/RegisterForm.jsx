@@ -20,7 +20,10 @@ export default function RegisterForm() {
         setWarning("");
         if (!emailCheck.test(userEmail)) {
             setWarning("* email is not valid!");
-        } else if (password !== password2) {
+        }else if(password.length<5){
+            setWarning("* password length shoud be greater than 4!");
+        } 
+        else if (password !== password2) {
             setWarning("* two passwords are not same!");
         } else {
             submit_register(new RegisterContent(userEmail, password))
@@ -42,7 +45,7 @@ export default function RegisterForm() {
                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="my-2 rounded-sm bg-blue-100 text-black px-1 w-60" />
                 <div className="my-2">Confirm password</div>
                 <input type="password" value={password2} onChange={(e) => setPassword2(e.target.value)} className="my-2 rounded-sm bg-blue-100 text-black px-1 w-60" />
-                <div className="text-red-600">{warning} </div>
+                <div className="text-red-600 break-words w-60">{warning} </div>
                 <div className="flex justify-center">
                     <button onClick={() => eraseInput()} className="mx-2 cursor-pointer text-red-400"> Cancel </button>
                     <button onClick={() => submitProcess()} className="mx-2 cursor-pointer"> Submit </button>

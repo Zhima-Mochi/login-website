@@ -31,6 +31,15 @@ async def create_user(connection, user: models.User) -> models.UserDB:
     return await get_user_by_id(connection, user_id)
 
 
+async def update_user_info(connection, userInfoUpdate: models.UserInfoUpdate):
+    # get user_id by user_email
+    user_id = (await get_user_by_email(connection, userInfoUpdate.user_email)).user_id
+    stmt = update(schemas.User).where(schemas.User.user_id == user_id).values(
+        user_nickname=userInfoUpdate.user_nickname).values(user_birthday=userInfoUpdate.user_birthday)
+    await connection.execute(stmt)
+    return
+
+
 async def update_user_profile(connection, user_email, user_profile: bytes):
     # get user_id by user_email
     user_id = (await get_user_by_email(connection, user_email)).user_id

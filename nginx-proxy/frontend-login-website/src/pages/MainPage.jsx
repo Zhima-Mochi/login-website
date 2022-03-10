@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 import Header from "../components/Header";
 
 function Message() {
@@ -6,7 +7,7 @@ function Message() {
     if (userName !== "") {
         return <div className="mb-4">Welcome to Main Page!</div>;
     } else {
-        return <div className="mb-4">Please login or register first.</div>;
+        return <div className="mb-4">Please <NavLink to='/login' className="text-blue-500 underline">login</NavLink> or <NavLink to='/register' className="text-red-300 underline">register</NavLink> first.</div>;
     }
 }
 

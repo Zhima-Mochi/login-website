@@ -3,13 +3,18 @@ import { useNavigate } from "react-router";
 import { get_login_status } from "../api";
 import Header from "../components/Header";
 import RegisterForm from "../components/RegisterForm";
+import * as actions from '../actions';
+import { useDispatch } from "react-redux";
 
 export default function RegisterPage() {
     const navigate = useNavigate();
+    const dispatch=useDispatch();
     async function loginStatus() {
         return get_login_status().then(() => {
             navigate('/');
-        }).catch(e => console.log(e));
+        }).catch(e => {
+            dispatch(actions.remove_user_name());
+        });
     }
     useEffect(() => {
         loginStatus();

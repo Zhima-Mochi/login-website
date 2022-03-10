@@ -8,6 +8,7 @@ import UserEditPage from './pages/UserEditPage';
 import store from './store';
 
 function App() {
+  window.scrollTo(0, 0);
   return (
     <Provider store={store}>
       <Routes>

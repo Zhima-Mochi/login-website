@@ -15,3 +15,11 @@ export class Oauth2Login {
         this.client_secret = client_secret;
     }
 }
+
+export class UserInfoEntity {
+    constructor(user_email, user_nickname, user_birthday) {
+        this.user_email = user_email;
+        this.user_nickname = user_nickname;
+        this.user_birthday = user_birthday;
+    }
+}
