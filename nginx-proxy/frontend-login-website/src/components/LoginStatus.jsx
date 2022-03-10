@@ -33,7 +33,7 @@ export default function LoginStatus() {
     } else {
         return (
             <div className="flex text-white">
-                <div className="">{userName}</div>
+                <NavLink to="/user" className="">{userName}</NavLink>
             </div>
         );
     }
