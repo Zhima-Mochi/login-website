@@ -1,35 +1,26 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { get_login_status, get_user_info } from "../api";
+import { get_user_info } from "../api";
 
 export default function LoginStatus() {
     const [isLogin, setIsLogin] = useState(false);
-    const [userInfo, setUserInfo] = useState({});
-
-    async function loginStatus() {
-        return get_login_status().then(() => {
-            setIsLogin(true);
-        }).catch(e => e);
-    }
-    useEffect(() => {
-        loginStatus();
-    }, []);
+    const [userName, setUserName] = useState("");
 
     useEffect(() => {
-        if (!isLogin) {
-            localStorage.removeItem("userInfo");
-            return;
-        }
-        const saved = localStorage.getItem("userInfo");
-
+        let saved = sessionStorage.getItem("user_name");
         if (!saved) {
             get_user_info().then(res => {
-                localStorage.setItem("userInfo", JSON.stringify(res.data));
-                setUserInfo(res.data);
+                const user_info = res.data;
+                const user_name = user_info.user_nickname || user_info.user_email;
+                sessionStorage.setItem("user_name", user_name);
+                setUserName(user_name);
+                console.log(userName);
+                setIsLogin(true);
             });
         } else {
-            const content = JSON.parse(saved);
-            setUserInfo(content);
+            const content = saved;
+            setUserName(content);
+            setIsLogin(true);
         }
     }, [isLogin]);
     if (!isLogin) {
@@ -42,7 +33,7 @@ export default function LoginStatus() {
     } else {
         return (
             <div className="flex text-white">
-                <div className="">{userInfo.user_nickname || userInfo.user_email}</div>
+                <div className="">{userName}</div>
             </div>
         );
     }
