@@ -17,7 +17,7 @@ services:
   redis-server:
     image: redis:6.2.6
     # ports:
-    #   - 16379:6379
+    #   - 6379:6379
     networks:
       - local-networks
 
@@ -37,8 +37,8 @@ services:
       - database_port=3306
       - redis_host=${redis_host:-redis-server}
       - redis_port=6379
-    ports:
-      - 8080:8080
+    # ports:
+    #   - 8080:8080
     networks:
       - local-networks
 

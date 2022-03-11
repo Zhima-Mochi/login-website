@@ -3,7 +3,6 @@ from asyncio.log import logger
 import aiofiles
 from fastapi import Depends, APIRouter, File, HTTPException, UploadFile, status, Response
 from starlette import status
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 router = APIRouter()
 
@@ -27,7 +26,7 @@ async def user_profile(user_email: str = Depends(dependents.check_authentication
 
 
 @ router.put("/profile", status_code=status.HTTP_202_ACCEPTED)
-async def update_user_profile(user_profile: UploadFile = File(...), connection=Depends(database.get_connection), csrf: str = Depends(dependents.csrf_protection)):
+async def update_user_profile(user_email: str = Depends(dependents.check_authentication), user_profile: UploadFile = File(...), connection=Depends(database.get_connection)):
     if user_profile.content_type not in ["image/png", "image/jpeg"]:
         raise HTTPException(status_code=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
     content = await user_profile.read()

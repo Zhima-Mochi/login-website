@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router";
-import { get_user_info, user_logout } from "../api";
+import { get_user_info } from "../api";
 import LogoutBtn from "./LogoutBtn";
 
 export default function UserInfo() {

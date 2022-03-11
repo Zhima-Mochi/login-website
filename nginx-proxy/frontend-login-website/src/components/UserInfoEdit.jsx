@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { get_user_info, put_user_info } from "../api";
 import { UserInfoEntity } from "../constants";
+import * as actions from '../actions';
 
 export default function UserInfoEdit() {
     const [userEmail, setUserEmail] = useState("");
     const [userNickname, setUserNickname] = useState("");
     const [userBirthday, setUserBirthday] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     useEffect(() => {
         get_user_info()
             .then(res => res.data)
@@ -23,6 +26,7 @@ export default function UserInfoEdit() {
         const content = new UserInfoEntity(userEmail, userNickname, userBirthday);
         put_user_info(content)
             .then(res => {
+                dispatch(actions.get_user_name(userNickname || userEmail));
                 navigate('/user');
             })
             .catch(e => null)
