@@ -36,3 +36,4 @@ docker-compose up
 ![demo](./demo/demo5.png)
 ![demo](./demo/demo6.png)
 ![demo](./demo/demo7.png)
+![demo](./demo/demo8.png)
