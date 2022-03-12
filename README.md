@@ -3,6 +3,10 @@
 ## Overview
 This application offer function of user authentication, when users register and login, they can edit their information until they logout or json web token is expired.
 
+## Architecture
+
+![architecture](architecture/architecture.png)
+
 ## Technology Stack
 ### Infrastructure
 * MySQL
