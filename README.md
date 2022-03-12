@@ -6,6 +6,7 @@ This application offer function of user authentication, when users register and 
 ## Architecture
 
 ![architecture](architecture/architecture.png)
+> They are different containers in Docker compose.
 
 ## Technology Stack
 ### Infrastructure
